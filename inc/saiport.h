@@ -1815,23 +1815,6 @@ typedef enum _sai_port_attr_t
     SAI_PORT_ATTR_SYSTEM_PORT,
 
     /**
-     * @brief To enable/disable low latency variation
-     *
-     * @type bool
-     * @flags CREATE_AND_SET
-     * @default false
-     */
-    SAI_PORT_ATTR_LOW_LATENCY_VARIATION,
-
-    /**
-     * @brief Query the Auto Negotiated Resolved FEC
-     *
-     * @type sai_s32_list_t sai_port_fec_mode_t
-     * @flags READ_ONLY
-     */
-    SAI_PORT_ATTR_AUTO_NEG_FEC_MODE,
-
-    /**
      * @brief Recovered Clock Generation enable/disable and Squelch Mode Configuration
      *
      * @type sai_port_synce_gen_squelch_config_t

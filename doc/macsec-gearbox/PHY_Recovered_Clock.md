@@ -212,80 +212,84 @@ typedef enum _sai_port_synce_divider_t
 
 Following example shows how to setup Recovered Clock configuration on a port. In this example a 16 lane PHY is used.
 
-    /\* Create System side, Line side, and System Side Failover ports \*/
-    sys\_attr[0].value.u32list.list = sys\_lane\_list;
-    line\_attr[0].value.u32list.list = line\_lane\_list;
-    failover\_attr[0].value.u32list.list = failover\_lane\_list;
-    line\_attr[1].id = sys\_attr[1].id = SAI\_PORT\_ATTR\_SPEED;
-    line\_attr[1].value.u32= sys\_attr[1].value.u32 = 100000;
-    line\_attr[2].id = sys\_attr[2].id = SAI\_PORT\_ATTR\_INTERFACE\_TYPE;
-    line\_attr[2].value.u32 = sys\_attr[2].value.u32 = SAI\_PORT\_INTERFACE\_TYPE\_KR;
-    line\_attr[3].id = sys\_attr[3].id = SAI\_PORT\_ATTR\_FEC\_MODE;
-    line\_attr[3].value.u32 = sys\_attr[3].value.u32 = SAI\_PORT\_FEC\_MODE\_RS;
-    line\_attr[4].id = sys\_attr[4].id = SAI\_PORT\_ATTR\_LINK\_TRAINING\_ENABLE;
-    line\_attr[4].value.booldata = sys\_attr[4].value.booldata = 1;
-    line\_attr[5].id = sys\_attr[5].id = SAI\_PORT\_ATTR\_ADMIN\_STATE;
-    line\_attr[5].value.booldata = sys\_attr[5].value.booldata = 1;
-    line\_attr[6].id = SAI\_PORT\_ATTR\_SYNCE\_GEN\_SQUELCH\_CONFIG;
-    line\_attr[6].value.u32 = 1;
-    line\_attr[7].id = SAI\_PORT\_ATTR\_SYNCE\_CLOCK\_OUTPUT\_LANE;
-    line\_attr[7].value.u32 = 21;
-    line\_attr[8].id = SAI\_PORT\_ATTR\_SYNCE\_DIVIDER;
-    line\_attr[8].value.u32 = SAI\_PORT\_SYNCE\_DIVIDER\_1024;
-    line\_attr[9].id = SAI\_PORT\_ATTR\_SYNCE\_RCLK\_PIN;
-    line\_attr[9].value.u32 = 0;
-    for (port\_index = 0; port\_index \&lt; 1; port\_index ++) {
-        for (phy\_index = 0; phy\_index \&lt; PAI\_MAX\_PHY; phy\_index ++) {
-            attr\_count = 1;
-            memset(&amp;port\_attr\_get, 0, sizeof(port\_attr\_get));
-            port\_attr\_get[0].id = SAI\_PORT\_ATTR\_SYNCE\_GEN\_SQUELCH\_CONFIG;
-            rv = pai\_port\_apis\_ptr-\&gt;get\_port\_attribute(line\_port\_id[phy\_index][port\_index], attr\_count, port\_attr\_get);
-            if (SAI\_STATUS\_SUCCESS != rv) {
-                printf(&quot;get Port Attribute failed return:%d\n&quot;, rv);
+    /* Create System side, Line side, and System Side Failover ports */
+    sys_attr[0].value.u32list.list = sys_lane_list;
+    line_attr[0].value.u32list.list = line_lane_list;
+    failover_attr[0].value.u32list.list = failover_lane_list;
+    line_attr[1].id = sys_attr[1].id = SAI_PORT_ATTR_SPEED;
+    line_attr[1].value.u32= sys_attr[1].value.u32 = 100000;
+    line_attr[2].id = sys_attr[2].id = SAI_PORT_ATTR_INTERFACE_TYPE;
+    line_attr[2].value.u32 = sys_attr[2].value.u32 = SAI_PORT_INTERFACE_TYPE_KR;
+    line_attr[3].id = sys_attr[3].id = SAI_PORT_ATTR_FEC_MODE;
+    line_attr[3].value.u32 = sys_attr[3].value.u32 = SAI_PORT_FEC_MODE_RS;
+    line_attr[4].id = sys_attr[4].id = SAI_PORT_ATTR_LINK_TRAINING_ENABLE;
+    line_attr[4].value.booldata = sys_attr[4].value.booldata = 1;
+    line_attr[5].id = sys_attr[5].id = SAI_PORT_ATTR_ADMIN_STATE;
+    line_attr[5].value.booldata = sys_attr[5].value.booldata = 1;
+
+    line_attr[6].id = SAI_PORT_ATTR_SYNCE_GEN_SQUELCH_CONFIG;
+    line_attr[6].value.u32 = 1;
+    line_attr[7].id = SAI_PORT_ATTR_SYNCE_CLOCK_OUTPUT_LANE;
+    line_attr[7].value.u32 = 21;
+    line_attr[8].id = SAI_PORT_ATTR_SYNCE_DIVIDER;
+    line_attr[8].value.u32 = SAI_PORT_SYNCE_DIVIDER_1024;
+    line_attr[9].id = SAI_PORT_ATTR_SYNCE_RCLK_PIN;
+    line_attr[9].value.u32 = 0;
+
+    for (port_index = 0; port_index < 1; port_index ++) {
+        for (phy_index = 0; phy_index < PAI_MAX_PHY; phy_index ++) {
+            attr_count = 1;
+            memset(&port_attr_get, 0, sizeof(port_attr_get));
+            port_attr_get[0].id = SAI_PORT_ATTR_SYNCE_GEN_SQUELCH_CONFIG;
+            rv = pai_port_apis_ptr->get_port_attribute(line_port_id[phy_index][port_index], attr_count, port_attr_get);
+            if (SAI_STATUS_SUCCESS != rv)  {
+                printf("get Port Attribute failed return:%d\n", rv);
                 return rv;
             }
-            printf(&quot;PAI Port synce config get attribute values port\_attr\_get[%d].id:%d\n&quot;, phy\_index, port\_attr\_get[0].value.u32);
+            printf("PAI Port synce config get attribute values port_attr_get[%d].id:%d\n", phy_index, port_attr_get[0].value.u32);
+        }
+    }
+    
+    for (port_index = 0; port_index < 1; port_index ++) {
+        for (phy_index = 0; phy_index < PAI_MAX_PHY; phy_index ++) {
+            attr_count = 1;
+            memset(&port_attr_get, 0, sizeof(port_attr_get));
+            port_attr_get[0].id = SAI_PORT_ATTR_SYNCE_CLOCK_OUTPUT_LANE;
+            rv = pai_port_apis_ptr->get_port_attribute(line_port_id[phy_index][port_index], attr_count, port_attr_get);
+            if (SAI_STATUS_SUCCESS != rv)  {
+                printf("get Port Attribute failed return:%d\n", rv);
+                return rv;
+            }
+            printf("PAI Port synce config get attribute values port_attr_get[%d].id:%d\n", phy_index, port_attr_get[0].value.u32);
         }
     }
 
-    for (port\_index = 0; port\_index \&lt; 1; port\_index ++) {
-        for (phy\_index = 0; phy\_index \&lt; PAI\_MAX\_PHY; phy\_index ++) {
-            attr\_count = 1;
-            memset(&amp;port\_attr\_get, 0, sizeof(port\_attr\_get));
-            port\_attr\_get[0].id = SAI\_PORT\_ATTR\_SYNCE\_CLOCK\_OUTPUT\_LANE;
-            rv = pai\_port\_apis\_ptr-\&gt;get\_port\_attribute(line\_port\_id[phy\_index][port\_index], attr\_count, port\_attr\_get);
-            if (SAI\_STATUS\_SUCCESS != rv) {
-                printf(&quot;get Port Attribute failed return:%d\n&quot;, rv);
-                return rv;
-            }
-            printf(&quot;PAI Port synce config get attribute values port\_attr\_get[%d].id:%d\n&quot;, phy\_index, port\_attr\_get[0].value.u32);
-        }
-    }
 
-    for (port\_index = 0; port\_index \&lt; 1; port\_index ++) {
-        for (phy\_index = 0; phy\_index \&lt; PAI\_MAX\_PHY; phy\_index ++) {
-            port\_attr\_set.id = SAI\_PORT\_ATTR\_SYNCE\_GEN\_SQUELCH\_CONFIG;
-            port\_attr\_set.value.u32 = 0;
-            printf(&quot;PAI Port synce mode attribute values :%d\n&quot;, port\_attr\_set.value.u32);
-            rv = pai\_port\_apis\_ptr-\&gt;set\_port\_attribute(line\_port\_id[phy\_index][port\_index], &amp;port\_attr\_set);
-            if (SAI\_STATUS\_SUCCESS != rv) {
-                printf(&quot;Set Port Attribute failed return:%d\n&quot;, rv);
+    for (port_index = 0; port_index < 1; port_index ++) {
+        for (phy_index = 0; phy_index < PAI_MAX_PHY; phy_index ++) {
+            port_attr_set.id = SAI_PORT_ATTR_SYNCE_GEN_SQUELCH_CONFIG;
+            port_attr_set.value.u32 = 0;
+            printf("PAI Port synce mode attribute values :%d\n", port_attr_set.value.u32);
+            rv = pai_port_apis_ptr->set_port_attribute(line_port_id[phy_index][port_index], &port_attr_set);
+            if (SAI_STATUS_SUCCESS != rv)  {
+                printf("Set Port Attribute failed return:%d\n", rv);
                 return rv;
             }
-            port\_attr\_set.id = SAI\_PORT\_ATTR\_SYNCE\_RCLK\_PIN;
-            port\_attr\_set.value.u32 = 2;
-            printf(&quot;PAI Port synce mode attribute values :%d\n&quot;, port\_attr\_set.value.u32);
-            rv = pai\_port\_apis\_ptr-\&gt;set\_port\_attribute(line\_port\_id[phy\_index][port\_index], &amp;port\_attr\_set);
-            if (SAI\_STATUS\_SUCCESS != rv) {
-                printf(&quot;Set Port Attribute failed return:%d\n&quot;, rv);
+
+            port_attr_set.id = SAI_PORT_ATTR_SYNCE_RCLK_PIN;
+            port_attr_set.value.u32 = 2;
+            printf("PAI Port synce mode attribute values :%d\n", port_attr_set.value.u32);
+            rv = pai_port_apis_ptr->set_port_attribute(line_port_id[phy_index][port_index], &port_attr_set);
+            if (SAI_STATUS_SUCCESS != rv)  {
+                printf("Set Port Attribute failed return:%d\n", rv);
                 return rv;
             }
-            port\_attr\_set.id = SAI\_PORT\_ATTR\_SYNCE\_CLOCK\_OUTPUT\_LANE;
-            port\_attr\_set.value.u32 = 3;
-            printf(&quot;PAI Port synce mode attribute values :%d\n&quot;, port\_attr\_set.value.u32);
-            rv = pai\_port\_apis\_ptr-\&gt;set\_port\_attribute(line\_port\_id[phy\_index][port\_index], &amp;port\_attr\_set);
-            if (SAI\_STATUS\_SUCCESS != rv) {
-                printf(&quot;Set Port Attribute failed return:%d\n&quot;, rv);
+            port_attr_set.id = SAI_PORT_ATTR_SYNCE_CLOCK_OUTPUT_LANE;
+            port_attr_set.value.u32 = 3;
+            printf("PAI Port synce mode attribute values :%d\n", port_attr_set.value.u32);
+            rv = pai_port_apis_ptr->set_port_attribute(line_port_id[phy_index][port_index], &port_attr_set);
+            if (SAI_STATUS_SUCCESS != rv)  {
+                printf("Set Port Attribute failed return:%d\n", rv);
                 return rv;
             }
         }
